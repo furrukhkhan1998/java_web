@@ -7,20 +7,13 @@
     <title>JSP - Hello World</title>
 </head>
 <body>
-<h1><%= "Hello World!" %></h1>
+    <h2>Simple login Web Application using JSP /Servlet</h2>
 
-<% java.util.Date date = new java.util.Date();
-   String serverName = request.getServerName();
-   out.println(serverName);
+<ul>
+    <li><a href="home">Home</a></li>
+    <li><a href="Login">Login</a></li>
+    <li><a href="productsList">ProductList</a></li>
+</ul>
 
-
-%>
-
-<h2>Now is = <% out.println(date.toString());
-
-%></h2>
-
-<br/>
-<a href="hello-servlet">Hello Servlet</a>
 </body>
 </html>
