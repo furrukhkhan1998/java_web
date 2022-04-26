@@ -1,4 +1,4 @@
-<%--
+<%@ page import="com.example.jsp.models.UserAccount" %><%--
   Created by IntelliJ IDEA.
   User: F_Khan
   Date: 4/26/2022
@@ -11,8 +11,15 @@
         <h1>My Site</h1>
     </div>
     <div style="float: right;padding: 10px;text-align: right;">
-        <%String user = (String) session.getAttribute("loginedUser"); %>
-        Hello<b><%out.print(user);%></b>
+        <%
+            UserAccount user = (UserAccount) session.getAttribute("loginedUser");
+            String username = "";
+            if(!(user == null)){
+                username= user.getUserName();
+            }
+
+        %>
+        Hello<b><%out.print(username);%></b>
         <br/>
         Search<input name = "search">
     </div>

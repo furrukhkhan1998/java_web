@@ -41,6 +41,9 @@ public class LoginServlet extends HttpServlet {
         }
         else{
             Connection conn = MyUtils.getStoredConnection(request);
+            if(conn == null){
+                System.out.println("No db connection :(");
+            }
             try{
                 user = DBUtils.findUser(conn, username, password);
                 if(user == null){
@@ -77,7 +80,7 @@ public class LoginServlet extends HttpServlet {
             else{
                 MyUtils.deleteUserCookie(response);
             }
-            response.sendRedirect(request.getContextPath() + "/userinfo");
+            response.sendRedirect(request.getContextPath() + "/userInfo");
         }
 
     }

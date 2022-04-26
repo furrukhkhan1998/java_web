@@ -38,6 +38,8 @@ public class JDBCFilter implements Filter {
             urlPattern = servletPath + "/*";
         }
 
+        System.out.println(urlPattern);
+
         Map<String, ? extends ServletRegistration> servletRegistrations = request.getServletContext().getServletRegistrations();
 
         Collection<? extends ServletRegistration> values = servletRegistrations.values();
@@ -45,10 +47,11 @@ public class JDBCFilter implements Filter {
         for(ServletRegistration sr: values){
             Collection<String> mappings = sr.getMappings();
             if(mappings.contains(urlPattern)){
-                return true;
+                System.out.println(urlPattern + " found in map!");
+                return false;
             }
         }
-        return false;
+        return true;
     }
 
     @Override
@@ -59,6 +62,7 @@ public class JDBCFilter implements Filter {
             Connection conn = null;
             try{
                 conn = ConnectionUtils.getConnection();
+                System.out.println("I am here :D in db filter");
                 conn.setAutoCommit(false);
                 MyUtils.storeConnection(request,conn);
                 chain.doFilter(request,response);
