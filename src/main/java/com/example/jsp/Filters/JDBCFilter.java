@@ -1,6 +1,7 @@
 package com.example.jsp.Filters;
 
 import com.example.jsp.dbconn.ConnectionUtils;
+import com.example.jsp.myUtils.MyUtils;
 
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
@@ -57,7 +58,11 @@ public class JDBCFilter implements Filter {
         if(this.needJDBC(req)){ //if no connection then make
             Connection conn = null;
             try{
-
+                conn = ConnectionUtils.getConnection();
+                conn.setAutoCommit(false);
+                MyUtils.storeConnection(request,conn);
+                chain.doFilter(request,response);
+                conn.commit();
             }
             catch(Exception e){
                 e.printStackTrace();

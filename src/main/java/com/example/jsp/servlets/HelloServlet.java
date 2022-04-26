@@ -1,4 +1,4 @@
-package com.example.jsp;
+package com.example.jsp.servlets;
 
 import java.io.*;
 import javax.servlet.http.*;
