@@ -30,28 +30,10 @@ public class JDBCFilter implements Filter {
 
     private boolean needJDBC(HttpServletRequest request){
 
-        String servletPath = request.getServletPath();
-        String pathInfo = request.getPathInfo();
-        String urlPattern = servletPath + "/";
-
-        if(pathInfo != null){
-            urlPattern = servletPath + "/*";
-        }
-
-        System.out.println(urlPattern);
-
-        Map<String, ? extends ServletRegistration> servletRegistrations = request.getServletContext().getServletRegistrations();
-
-        Collection<? extends ServletRegistration> values = servletRegistrations.values();
-
-        for(ServletRegistration sr: values){
-            Collection<String> mappings = sr.getMappings();
-            if(mappings.contains(urlPattern)){
-                System.out.println(urlPattern + " found in map!");
-                return false;
-            }
-        }
-        return true;
+       if(MyUtils.getStoredConnection(request) == null){
+           return true;
+       }
+       return false;
     }
 
     @Override
@@ -62,7 +44,6 @@ public class JDBCFilter implements Filter {
             Connection conn = null;
             try{
                 conn = ConnectionUtils.getConnection();
-                System.out.println("I am here :D in db filter");
                 conn.setAutoCommit(false);
                 MyUtils.storeConnection(request,conn);
                 chain.doFilter(request,response);
@@ -71,7 +52,11 @@ public class JDBCFilter implements Filter {
             catch(Exception e){
                 e.printStackTrace();
                 ConnectionUtils.rollbackQuietly(conn);
+                throw new ServletException();
+            }finally {
+                ConnectionUtils.closeQuietly(conn);
             }
+
         }
         else
         {

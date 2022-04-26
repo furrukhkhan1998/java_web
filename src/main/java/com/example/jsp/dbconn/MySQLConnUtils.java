@@ -20,7 +20,7 @@ public class MySQLConnUtils {
         String connectionURL = "jdbc:mysql://" + hostName + ":3306/" + dbName;
 
         Connection conn = DriverManager.getConnection(connectionURL, userName, password);
-        System.out.println("i have been called :D");
+        System.out.println("Making new Connection with DB!");
         return conn;
     }
 
